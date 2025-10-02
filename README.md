@@ -1,14 +1,6 @@
-!! Change this document for your own project by removing the placeholder text, adding your own text, adding helpful sections etc. etc. !!
+# Wer wird Millionär
 
-# <Project Title>
-
-In a few sentences describe what your project is trying to solve.
-
-You can use [GitHub markdown
-notation](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax)
-or [GitLab markdown notation](https://docs.gitlab.com/ee/user/markdown.html) in
-case you are using one of these platforms. This will give a nicely formatted
-documentation when looking at your project online.
+Entwicklung eines interaktiven Quizspiels im Stil von „Wer wird Millionär“, das Wissen, Strategie und Spannung vereint. Die App bietet eine benutzerfreundliche Oberfläche, in der Spieler*innen ihr Allgemeinwissen testen können. Die App enthält einfache Eingabe- und Auswahlfunktionen für Antworten, ein übersichtliches Punktesystem sowie eine visuelle Darstellung des Fortschritts innerhalb eines Spiels.
 
 ## Get started
 
