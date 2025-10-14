@@ -3,28 +3,29 @@ This is the suggested main entry Python source file for your project
 """
 
 import tkinter as tk
+from repo_question import fetch_12_questions
 
 
-class QuizFrage:
-    def __init__(self, frage, antworten, richtig, kategorie=None, schwierigkeit=None):
-        self.frage = frage
-        self.antworten = antworten
-        self.richtig = richtig
-        self.kategorie = kategorie
-        self.schwierigkeit = schwierigkeit
+# class QuizFrage:
+#   def __init__(self, frage, antworten, richtig, kategorie=None, schwierigkeit=None): # KAtegorie muss noch entfern werden
+#       self.frage = frage
+#       self.antworten = antworten
+#       self.richtig = richtig
+#      #self.kategorie = kategorie
+#      self.schwierigkeit = schwierigkeit
 
-    def ist_richtig(self, index):
-        return index == self.richtig
+#  def ist_richtig(self, index):
+#     return index == self.richtig
 
 
 # Eine Instanz der Klasse
-frage1 = QuizFrage(
-    "Wie heißt die Hauptstadt von Frankreich?",
-    ["Berlin", "Paris", "Rom", "Madrid"],
-    1,
-    kategorie="Geographie",
-    schwierigkeit="leicht",
-)
+# frage1 = QuizFrage(
+#   "Wie heißt die Hauptstadt von Frankreich?",
+#   ["Berlin", "Paris", "Rom", "Madrid"],
+#   1,
+#   kategorie="Geographie",
+#  schwierigkeit="leicht",
+# )
 
 
 class QuizFrage:
@@ -85,14 +86,34 @@ class QuizGUI:
 
 
 if __name__ == "__main__":
-    fragen = [
-        QuizFrage(
-            "Wie heisst die Hauptstadt von Frankreich?",
-            ["Berlin", "Paris", "Rom", "Madrid"],
-            1,
-        ),
-        QuizFrage("Was ist 2+2?", ["3", "4", "5", "6"], 1),
-    ]
+    # fragen = [
+    #     QuizFrage(
+    #        "Wie heisst die Hauptstadt von Frankreich?",
+    #        ["Berlin", "Paris", "Rom", "Madrid"],
+    #        1,
+    #    ),
+    #    QuizFrage("Was ist 2+2?", ["3", "4", "5", "6"], 1),
+    # ]
+
+    rows = fetch_12_questions()  # Funktion fetch_12_questions aufrufen
+    fragen = []  # leere liste für die Objekte der Klasse QuizFragen
+
+    for (
+        row
+    ) in (
+        rows
+    ):  # rows ist eine Liste von tulpels mit Form (Fragetext, [Antwort A, Antwort B...], korrekterIndex)
+        text = row[0]  # in text wird die Frage gespeichert
+        answers = row[1]  # ""
+        correct = row[2]  # ""
+
+        q = QuizFrage(
+            text, answers, correct
+        )  # Es wird ein Objekt der Klasse Quizfrage erstellt
+
+        fragen.append(q)  # Das Objekt wird in die Liste angehängt
+
+    print(vars(fragen[0]))
 
     root = tk.Tk()
     root.title("Quizspiel")
