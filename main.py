@@ -3,6 +3,8 @@ This is the suggested main entry Python source file for your project
 """
 
 import tkinter as tk
+
+
 class QuizFrage:
     def __init__(self, frage, antworten, richtig, kategorie=None, schwierigkeit=None):
         self.frage = frage
@@ -14,13 +16,14 @@ class QuizFrage:
     def ist_richtig(self, index):
         return index == self.richtig
 
+
 # Eine Instanz der Klasse
 frage1 = QuizFrage(
     "Wie heißt die Hauptstadt von Frankreich?",
     ["Berlin", "Paris", "Rom", "Madrid"],
     1,
     kategorie="Geographie",
-    schwierigkeit="leicht"
+    schwierigkeit="leicht",
 )
 
 
@@ -32,6 +35,7 @@ class QuizFrage:
 
     def ist_richtig(self, index):
         return index == self.richtig
+
 
 class QuizGUI:
     def __init__(self, root, fragen):
@@ -45,7 +49,9 @@ class QuizGUI:
 
         self.antwort_buttons = []
         for i in range(4):
-            btn = tk.Button(root, text="", width=20, command=lambda i=i: self.antwort_geklickt(i))
+            btn = tk.Button(
+                root, text="", width=20, command=lambda i=i: self.antwort_geklickt(i)
+            )
             btn.pack(pady=5)
             self.antwort_buttons.append(btn)
 
@@ -77,10 +83,15 @@ class QuizGUI:
             self.frage_label.config(text=f"Quiz beendet! Punkte: {self.punkte}")
             self.ergebnis_label.config(text="")
 
+
 if __name__ == "__main__":
     fragen = [
-        QuizFrage("Wie heißt die Hauptstadt von Frankreich?", ["Berlin", "Paris", "Rom", "Madrid"], 1),
-        QuizFrage("Was ist 2+2?", ["3", "4", "5", "6"], 1)
+        QuizFrage(
+            "Wie heisst die Hauptstadt von Frankreich?",
+            ["Berlin", "Paris", "Rom", "Madrid"],
+            1,
+        ),
+        QuizFrage("Was ist 2+2?", ["3", "4", "5", "6"], 1),
     ]
 
     root = tk.Tk()
