@@ -1,0 +1,2 @@
+DELETE FROM players;
+VACUUM;
