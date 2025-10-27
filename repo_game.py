@@ -26,10 +26,31 @@ def login(username: str):
         # Neu eintragen
         conn.execute("INSERT INTO players(username) VALUES (?);", (username,))
         conn.commit()
+        user = username
         return (True, username)
     finally:
         conn.close()
 
 
+def write_score_to_db(username, score):
+    """Speichert den Score eines Users."""
+    with sqlite3.connect(db_game_path) as conn:
+        conn.execute(
+            "UPDATE players SET score = ? WHERE username = ?;", (score, username)
+        )
+        conn.commit()
+
+
+def get_rank(limit=5):
+    """Gibt Top-`limit` als Liste (username, score) zurück."""
+    with sqlite3.connect(db_game_path) as conn:
+        rows = conn.execute(
+            "SELECT username, score FROM players "
+            "ORDER BY score DESC, username ASC LIMIT ?;",
+            (limit,),
+        ).fetchall()
+    return [(r[0], r[1]) for r in rows]
+
+
 if __name__ == "__main__":
-    print(login("maximilam"))
+    print(get_rank())
