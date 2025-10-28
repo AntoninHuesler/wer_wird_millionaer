@@ -1,8 +1,7 @@
 import sqlite3
 from pathlib import Path
 
-db_game_path = Path("data/game.db")  # Pfad zur Datenbank questions.db
-
+db_game_path = Path(__file__).resolve().parent / "data" / "game.db"
 
 def login(username: str):
     """

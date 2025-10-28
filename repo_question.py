@@ -1,7 +1,7 @@
 import sqlite3
 from pathlib import Path
 
-db_questions_path = Path("data/questions.db")  # Pfad zur Datenbank questions.db
+db_questions_path = Path(__file__).resolve().parent / "data" / "questions.db"
 
 
 def pick(
