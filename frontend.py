@@ -97,7 +97,7 @@ class QuizGUI(tk.Tk):
             tk.Label(
                 self, text=f"{place}. {username}: {r_score} Punkte", font=("Arial", 11)
             ).pack()
-        tk.Button(self, text="Neustart", command=self.build_start_screen).pack(pady=15)
+        tk.Button(self, text="Neustart", command=self.build_login).pack(pady=15)
 
 
 if __name__ == "__main__":
