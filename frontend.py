@@ -11,7 +11,6 @@ import repo_game  # Importiert die Funktionen für das Ranking
 
 
 class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
-    """Hauptklasse für das GIU"""
     def __init__(self):
         super().__init__()
         self.title("Wer wird Millionär")
@@ -31,7 +30,6 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # LOGIN-BEREICH
     # --------------------------------------------------------------
     def build_login(self):  # Anzeige des Login-Bildschirms
-        """Zeigt Eingabefeld für Benutzername und Login-Button"""
         self._clear()  # Fenster leeren
         tk.Label(self, text="Benutzername:").pack(pady=10)
         entry = tk.Entry(self)
@@ -41,7 +39,6 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         )
 
     def login(self, username):  # Login-Funktion für Benutzer
-        """Führt den Login über game_logic aus und wechselt auf den Startbildschirm"""
         success, _ = game_logic.do_login(
             username
         )  # Prüft, ob Username in Datenbank existiert
@@ -56,7 +53,6 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # STARTBILDSCHIRM
     # --------------------------------------------------------------
     def build_start_screen(self):  # Anzeige des Start-Bildschirms (Spiel starten)
-        """Zeigt Button zum Start des Spiels"""
         self._clear()
         tk.Button(self, text="Spiel starten", command=self.start_game).pack(pady=20)
 
@@ -65,7 +61,6 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # SPIELSTART UND FRAGEN-ANSICHT
     # --------------------------------------------------------------
     def start_game(self):  # Startet das Spiel, lädt erste Frage
-        """Holt Fragen aus game_logic und zeigt erste Frage an"""
         question_text, answers = (
             game_logic.start_new_game()
         )  # Neue Frage + Antworten holen
@@ -132,7 +127,6 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # ANTWORT-PRÜFUNG UND SPIELFORTSCHRITT
     # --------------------------------------------------------------
     def submit_answer(self, answer_index):
-        """Wertet gegebene Antwort aus und lädt nächste Frage wenn Antwort korrekt"""
     def submit_answer(self, answer_index):  # Prüft gegebene Antwort und zeigt Feedback
         correct, finished, _ = game_logic.submit_answer(answer_index)
 
@@ -175,7 +169,7 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # ERGEBNISANZEIGE
     # --------------------------------------------------------------
     def show_result(self, score):
-        """Zeigt das Endergebnis und das Ranking der Top 5 Spieler an"""
+
     def show_result(self, score):  # Anzeige des Endbildschirms mit Score und Ranking
         self._clear()
         tk.Label(
