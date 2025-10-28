@@ -126,7 +126,7 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # --------------------------------------------------------------
     # ANTWORT-PRÜFUNG UND SPIELFORTSCHRITT
     # --------------------------------------------------------------
-    def submit_answer(self, answer_index):
+
     def submit_answer(self, answer_index):  # Prüft gegebene Antwort und zeigt Feedback
         correct, finished, _ = game_logic.submit_answer(answer_index)
 
@@ -160,7 +160,7 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # --------------------------------------------------------------
     # HILFSFUNKTIONEN
     # --------------------------------------------------------------
-    def _clear(self):
+
     def _clear(self):  # Hilfsfunktion: leert das Fenster
         for widget in self.winfo_children():
             widget.destroy()
@@ -168,7 +168,7 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # --------------------------------------------------------------
     # ERGEBNISANZEIGE
     # --------------------------------------------------------------
-    def show_result(self, score):
+
 
     def show_result(self, score):  # Anzeige des Endbildschirms mit Score und Ranking
         self._clear()
@@ -176,7 +176,7 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
             self, text=f"Spiel vorbei! Dein Score: {score}", font=("Arial", 14)
         ).pack(pady=8)
         # Ranking aus DB holen:
-        rank_list = repo_game.get_rank(limit=5)
+
         rank_list = repo_game.get_rank(limit=5)  # Top 5 Spieler holen
         tk.Label(self, text="Top 5 Spieler:", font=("Arial", 12, "bold")).pack(pady=3)
 
@@ -186,7 +186,7 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
                 self, text=f"{place}. {username}: {r_score} Punkte", font=("Arial", 11)
             ).pack()
         #Button für Neustart und Redirect auf Login-Screen
-        tk.Button(self, text="Neustart", command=self.build_login).pack(pady=15)
+
         tk.Button(self, text="Neustart", command=self.build_login).pack(
             pady=15
         )  # Button zum Neustart
