@@ -124,7 +124,7 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # --------------------------------------------------------------
 
     def submit_answer(self, answer_index):  # Prüft gegebene Antwort und zeigt Feedback
-        correct, finished, _ = game_logic.submit_answer(answer_index)
+        correct, finished, correct_index = game_logic.submit_answer(answer_index)
 
         # Buttons nach Klick daktivieren, damit keine Mehrfachantworten möglich sind
         for btn in self.buttons:
@@ -134,21 +134,14 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         msg = "Richtig!" if correct else "Falsch!"
         tk.Label(self, text=msg, font=("Arial", 12)).pack(pady=10)
 
-        # Markiere die korrekte und ggf. die gegebene falsche Antwort farbig
-        correct_index = game_logic.GameState["questions"][
-            game_logic.GameState["index_current_question"]
-        ][
-            2
-        ]  # Index der richtigen Antwort
+        # Buttons einfärben je nach Antwort & Lösung
         for i, btn in enumerate(self.buttons):
-            if i == correct_index and i == answer_index:
-                btn.config(bg="green", fg="white")  # Richtig gedrückt: grün
-            elif i == correct_index:
-                btn.config(
-                    bg="#90ee90"
-                )  # Das ist die richtige, falls falsch geantwortet: hellgrün
-            elif i == answer_index:
-                btn.config(bg="red", fg="white")  # Falsche gedrückt: rot
+            if i == answer_index and correct:  # Richtig gedrückt
+                btn.config(bg="green", fg="white")
+            elif i == answer_index and not correct:  # Falsch gedrückt
+                btn.config(bg="red", fg="white")
+            elif i == correct_index:  # Die korrekte Antwort bei Fehler
+                btn.config(bg="#90ee90", fg="black")
 
         # Wenn Antwort falsch oder Spielende erreicht
         if not correct:
