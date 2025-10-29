@@ -45,7 +45,7 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         if success:
             self.build_start_screen()
         else:
-            tk.Label(self, text="Login fehlgeschlagen!").pack()
+            tk.Label(self, text="Dieser Benutzername existiert bereits!").pack()
 
     # --------------------------------------------------------------
     # STARTBILDSCHIRM
