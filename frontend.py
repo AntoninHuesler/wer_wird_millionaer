@@ -15,6 +15,12 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         super().__init__()
         self.title("Wer wird Millionär")
         self.geometry("420x350")
+        self.configure(bg="#337ab7")
+
+        tk.Label(
+            self, text="Dein Text", font=("Arial", 15), bg="#337ab7", fg="white"
+        ).pack(pady=15)
+        btn = tk.Button(self, text="Antwort", bg="#1976d2", fg="white")
 
         # --- Attribute für Spielzustand ---
         self.username = ""  # Aktueller Benutzername
