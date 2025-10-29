@@ -1,7 +1,7 @@
 # Tkinter-Frontend für "Wer wird Millionär"
 #
-#frontend.py steuert das GUI des Spiels.
-# Es kommuniziert mit: 
+# frontend.py steuert das GUI des Spiels.
+# Es kommuniziert mit:
 # - game_logic-py (Spiellogik)
 # - repo_game.py (Zugriff auf DB)
 
@@ -17,14 +17,13 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         self.geometry("420x350")
 
         # --- Attribute für Spielzustand ---
-        self.username = ""              #Aktueller Benutzername
-        self.score = 0                  #Aktueller Punktestand
-        self.current_question = None    #Aktuelle Frage
-        self.buttons = []               #Liste der Antwort-Buttons
+        self.username = ""  # Aktueller Benutzername
+        self.score = 0  # Aktueller Punktestand
+        self.current_question = None  # Aktuelle Frage
+        self.buttons = []  # Liste der Antwort-Buttons
 
         # --- Startbildschirm aufbauen ---
         self.build_login()
-
 
     # --------------------------------------------------------------
     # LOGIN-BEREICH
@@ -48,14 +47,12 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         else:
             tk.Label(self, text="Login fehlgeschlagen!").pack()
 
-
     # --------------------------------------------------------------
     # STARTBILDSCHIRM
     # --------------------------------------------------------------
     def build_start_screen(self):  # Anzeige des Start-Bildschirms (Spiel starten)
         self._clear()
         tk.Button(self, text="Spiel starten", command=self.start_game).pack(pady=20)
-
 
     # --------------------------------------------------------------
     # SPIELSTART UND FRAGEN-ANSICHT
@@ -76,11 +73,9 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         # --- Header für username-Anzeige oben rechts ---
         header = tk.Frame(self)
         header.pack(side="top", fill="x", pady=4)
-        tk.Label(
-            header,
-            text=f"Spieler: {self.username}",
-            font=("Arial", 14)
-        ).pack(side="right", padx=10)
+        tk.Label(header, text=f"Spieler: {self.username}", font=("Arial", 14)).pack(
+            side="right", padx=10
+        )
 
         # --- Aktuelle Fragenummer & Anz. Fragen gesamt aus Gamestate holen ---
         i = game_logic.GameState["index_current_question"]
@@ -108,20 +103,15 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         footer.pack(side="bottom", fill="x", pady=8)
 
         # Linke Seite Fusszeile: Fragefortschritt
-        tk.Label(
-            footer,
-            text = f"Frage: {current_num}/{total}",
-            font=("Arial", 14)
-        ).pack(side="left", padx=10)
+        tk.Label(footer, text=f"Frage: {current_num}/{total}", font=("Arial", 14)).pack(
+            side="left", padx=10
+        )
 
         # Rechte Seite Fusszeile: Punktestand
         score = game_logic.GameState["score"]
-        tk.Label(
-            footer,
-            text=f"Punktestand: {score}",
-            font=("Arial", 14)
-        ).pack(side="right", padx=10)
-
+        tk.Label(footer, text=f"Punktestand: {score}", font=("Arial", 14)).pack(
+            side="right", padx=10
+        )
 
     # --------------------------------------------------------------
     # ANTWORT-PRÜFUNG UND SPIELFORTSCHRITT
@@ -138,15 +128,31 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         msg = "Richtig!" if correct else "Falsch!"
         tk.Label(self, text=msg, font=("Arial", 12)).pack(pady=10)
 
+        # Markiere die korrekte und ggf. die gegebene falsche Antwort farbig
+        correct_index = game_logic.GameState["questions"][
+            game_logic.GameState["index_current_question"]
+        ][
+            2
+        ]  # Index der richtigen Antwort
+        for i, btn in enumerate(self.buttons):
+            if i == correct_index and i == answer_index:
+                btn.config(bg="green", fg="white")  # Richtig gedrückt: grün
+            elif i == correct_index:
+                btn.config(
+                    bg="#90ee90"
+                )  # Das ist die richtige, falls falsch geantwortet: hellgrün
+            elif i == answer_index:
+                btn.config(bg="red", fg="white")  # Falsche gedrückt: rot
+
         # Wenn Antwort falsch oder Spielende erreicht
         if not correct:
             # Bei falscher Antwort: Endscreen + Ranking anzeigen
-            self.show_result(game_logic.GameState["score"])
+            self.after(1300, lambda: self.show_result(game_logic.GameState["score"]))
             return
 
         if finished:
             # Wenn alle Fragen beantwortet: Endscreen + Ranking zeigen
-            self.show_result(game_logic.GameState["score"])
+            self.after(1300, lambda: self.show_result(game_logic.GameState["score"]))
         else:
             # Sonst: nächste Frage nach kurzer Wartezeit anzeigen
             def next():
@@ -155,7 +161,6 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
                 self.build_question_screen()
 
             self.after(1200, next)  # 1,2 Sekunden später geht's weiter
-
 
     # --------------------------------------------------------------
     # HILFSFUNKTIONEN
@@ -169,7 +174,6 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # ERGEBNISANZEIGE
     # --------------------------------------------------------------
 
-
     def show_result(self, score):  # Anzeige des Endbildschirms mit Score und Ranking
         self._clear()
         tk.Label(
@@ -180,12 +184,12 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         rank_list = repo_game.get_rank(limit=5)  # Top 5 Spieler holen
         tk.Label(self, text="Top 5 Spieler:", font=("Arial", 12, "bold")).pack(pady=3)
 
-        #Liste Ranking darstellen
+        # Liste Ranking darstellen
         for place, (username, r_score) in enumerate(rank_list, 1):
             tk.Label(
                 self, text=f"{place}. {username}: {r_score} Punkte", font=("Arial", 11)
             ).pack()
-        #Button für Neustart und Redirect auf Login-Screen
+        # Button für Neustart und Redirect auf Login-Screen
 
         tk.Button(self, text="Neustart", command=self.build_login).pack(
             pady=15
