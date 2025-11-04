@@ -2,7 +2,7 @@
 
 Ein interaktives Quizspiel im Stil von „Wer wird Millionär“, entwickelt mit Python und Tkinter. Dieses Projekt vereint Wissen, Strategie und Spannung in einer benutzerfreundlichen Oberfläche. Teste dein Allgemeinwissen, klettere die Gewinnstufen empor und sichere dir einen Platz im Highscore!
 
-Die App enthält einfache Eingabe- und Auswahlfunktionen, ein klares Punktesystem und eine visuelle Darstellung deines Fortschritts im Spiel.
+Das Quizspiel enthält einfache Eingabe- und Auswahlfunktionen, ein klares Punktesystem und eine visuelle Darstellung deines Fortschritts im Spiel.
 
 ## Features
 
