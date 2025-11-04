@@ -44,19 +44,19 @@ python frontend.py
 
 Dieses Projekt nutzt eine klare Trennung von Verantwortlichkeiten, um die Wartbarkeit und Übersichtlichkeit zu gewährleisten. Die Kernidee war, die Anzeige (GUI), die Spiellogik und den Datenzugriff voneinander zu entkoppeln.
 
-* `frontend.py`: Startpunkt / GUI-Logik (Tkinter), ruft game_logic auf, um Aktionen auszulösen
+* `frontend.py`: Startpunkt / GUI-Logik (Tkinter)
 * `game_logic.py`: Spiellogik, steuert den gesamten Spielablauf
 * `repo_question.py`: Datenzugriff auf die Fragen-Datenbank
 * `repo_game.py`: Datenzugriff auf die Spieler- & Score-Datenbank
 * `data/questions.db`: Datenbank mit allen Quizfragen
 * `data/game.db`: Datenbank für Spieler-Logins und Highscores
-* `data/*.sql`: "SQL-Skripte für Setup, Seed und Reset der DBs"
+* `data/*.sql`: SQL-Skripte für Setup, Seed und Reset der DBs
 
 ## Entwicklung & Tests
 
 ### Tests
 
-Das Projekt verwendet das "unittest"-Modul von Python für Unit-Tests.
+Das Projekt verwendet das `unittest`-Modul von Python für Unit-Tests.
 
 ### Stilregeln
 
