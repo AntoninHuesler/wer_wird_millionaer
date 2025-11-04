@@ -1,29 +1,73 @@
 # Wer wird Millionär
 
-Entwicklung eines interaktiven Quizspiels im Stil von „Wer wird Millionär“, das Wissen, Strategie und Spannung vereint. Die App bietet eine benutzerfreundliche Oberfläche, in der Spieler*innen ihr Allgemeinwissen testen können. Die App enthält einfache Eingabe- und Auswahlfunktionen für Antworten, ein übersichtliches Punktesystem sowie eine visuelle Darstellung des Fortschritts innerhalb eines Spiels.
+Ein interaktives Quizspiel im Stil von „Wer wird Millionär“, entwickelt mit Python und Tkinter. Dieses Projekt vereint Wissen, Strategie und Spannung in einer benutzerfreundlichen Oberfläche. Teste dein Allgemeinwissen, klettere die Gewinnstufen empor und sichere dir einen Platz im Highscore!
 
-## Get started
+Die App enthält einfache Eingabe- und Auswahlfunktionen, ein klares Punktesystem und eine visuelle Darstellung deines Fortschritts im Spiel.
 
-Explain what the user has to type to get started with your solution. Which one
-is the main Python file? In the simplest case, this could look something like
-this:
+## Features
 
-``
-    python main.py
-``
+* Klassisches Quiz-Gameplay: Beantworte 12 Fragen mit steigendem Schwierigkeitsgrad (je 4 leicht, mittel, schwer).
+* Grafische Oberfläche: Eine intuitive und saubere Benutzeroberfläche, erstellt mit Tkinter.
+* Spieler-Ranking: Ein Highscore-System, das deine besten Runden speichert.
 
-In other cases the user might first have to install some project dependencies
-first has to run something like this (a sample requirements.txt file is also
-included in the project template):
+## Getting Started
+Folge diesen Schritten, um das Spiel auf deinem lokalen Rechner einzurichten und zu starten.
 
-``
-    pip install -r requirements.txt
-``
+### Voraussetzungen
 
-## Understanding the sources
+* Python 3.x
+* Das `sqlite3` Command-Line-Tool (ist normalerweise bei Python standardmässig dabei).
 
-Explain any high level concepts that you are using in your software. What were
-your ideas for creating the whole software? What might not be apparent from the
-sources alone? You can also add diagrams, photos of whiteboards or flipcharts
-or even crudly drawing napkin sketches of the core concepts of your software
-when they are readable and helpful for understanding.
+### Installation & Einrichtung
+
+1.  Klone dieses Repository auf deinen Computer.
+2.  Öffne ein Terminal und navigiere in das Projektverzeichnis.
+
+### Spiel starten
+
+Sobald die Einrichtung abgeschlossen ist, kannst du das Spiel starten:
+
+```bash
+python frontend.py
+```
+
+## Spielablauf
+
+1.  Login: Starte das Spiel (python frontend.py). Du wirst aufgefordert, deinen Benutzernamen einzugeben.
+2.  Spielstart: Klicke auf "Spiel starten", um deine Runde zu beginnen.
+3.  Fragen: Dir werden nacheinander 12 Fragen gestellt. Wähle die korrekte Antwort aus und bestätige sie.
+4.  Auswertung: Nach jeder Antwort erhältst du sofort Feedback.
+5. Spielende: Sobald du alle Fragen beantwortet oder eine falsch beantwortet hast, ist das Spiel vorbei.
+6. Ranking: Dein Score wird gespeichert und du kannst deinen Platz im globalen Ranking einsehen.
+
+## Projektarchitektur
+
+Dieses Projekt nutzt eine klare Trennung von Verantwortlichkeiten, um die Wartbarkeit und Übersichtlichkeit zu gewährleisten. Die Kernidee war, die Anzeige (GUI), die Spiellogik und den Datenzugriff voneinander zu entkoppeln.
+
+* frontend.py, Startpunkt / GUI-Logik (Tkinter), ruft game_logic auf, um Aktionen auszulösen
+* game_logic.py, Spiellogik, steuert den gesamten Spielablauf
+* repo_question.py, Datenzugriff auf die Fragen-Datenbank
+* repo_game.py, Datenzugriff auf die Spieler- & Score-Datenbank
+* data/questions.db, Datenbank mit allen Quizfragen
+* data/game.db, Datenbank für Spieler-Logins und Highscores
+* data/*.sql,"SQL-Skripte für Setup, Seed und Reset der DBs"
+
+## Entwicklung & Tests
+
+### Tests
+
+Das Projekt verwendet das unittest-Modul von Python für Unit-Tests.
+
+### Stilregeln
+
+Der Code ist angelehnt an die PEP 8-Stilrichtlinien für Python-Code.
+
+### Datenbank-Reset
+Wenn du die Spielstände und Spieler zurücksetzen möchtest, ohne die Fragen anzutasten, kannst du folgendes Skript ausführen:
+
+sqlite3 data/game.db < data/004_clear_game.sql
+
+## Lizenz
+
+Siehe die LICENSE-Datei im Projekt für Details.
+
