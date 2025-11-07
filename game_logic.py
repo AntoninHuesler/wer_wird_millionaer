@@ -1,5 +1,7 @@
+"""Die Spiellogik: Login, Spielstart, Fragen laden, Antworten prüfen, Score speichern."""
+
 from repo_question import fetch_12_questions
-from repo_game import *
+import repo_game
 
 
 # Spielzustand
