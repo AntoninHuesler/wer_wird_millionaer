@@ -7,7 +7,7 @@ Es kommuniziert mit:
 - repo_game.py (Zugriff auf DB)."""
 
 import tkinter as tk  # Importiert das Tkinter-Modul für die Oberfläche
-import game_logic  # Importiert die Spiellogik
+import game_logic # Importiert die Spiellogik
 import repo_game  # Importiert die Funktionen für das Ranking
 
 
@@ -90,8 +90,8 @@ class QuizGUI(tk.Tk):
         )
 
         # --- Aktuelle Fragenummer & Anz. Fragen gesamt aus Gamestate holen ---
-        i = game_logic.GameState["index_current_question"]
-        total = len(game_logic.GameState["questions"])
+        i = game_logic.GAME_STATE["index_current_question"]
+        total = len(game_logic.GAME_STATE["questions"])
         current_num = i + 1
 
         # --- Frage & Antworten anzeigen ---
@@ -120,7 +120,7 @@ class QuizGUI(tk.Tk):
         )
 
         # Rechte Seite Fusszeile: Punktestand
-        score = game_logic.GameState["score"]
+        score = game_logic.GAME_STATE["score"]
         tk.Label(footer, text=f"Punktestand: {score}", font=("Arial", 14)).pack(
             side="right", padx=10
         )
@@ -153,12 +153,12 @@ class QuizGUI(tk.Tk):
         # Wenn Antwort falsch oder Spielende erreicht
         if not correct:
             # Bei falscher Antwort: Endscreen + Ranking anzeigen
-            self.after(1300, lambda: self.show_result(game_logic.GameState["score"]))
+            self.after(1300, lambda: self.show_result(game_logic.GAME_STATE["score"]))
             return
 
         if finished:
             # Wenn alle Fragen beantwortet: Endscreen + Ranking zeigen
-            self.after(1300, lambda: self.show_result(game_logic.GameState["score"]))
+            self.after(1300, lambda: self.show_result(game_logic.GAME_STATE["score"]))
         else:
             # Sonst: nächste Frage nach kurzer Wartezeit anzeigen
             def load_next_question():
