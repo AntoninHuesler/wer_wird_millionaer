@@ -7,7 +7,7 @@ Es kommuniziert mit:
 - repo_game.py (Zugriff auf DB)."""
 
 import tkinter as tk  # Importiert das Tkinter-Modul für die Oberfläche
-import game_logic # Importiert die Spiellogik
+import game_logic  # Importiert die Spiellogik
 import repo_game  # Importiert die Funktionen für das Ranking
 
 
@@ -19,11 +19,6 @@ class QuizGUI(tk.Tk):
         self.title("Wer wird Millionär")
         self.geometry("420x350")
         self.configure(bg="#337ab7")
-
-        tk.Label(
-            self, text="Dein Text", font=("Arial", 15), bg="#337ab7", fg="white"
-        ).pack(pady=15)
-        tk.Button(self, text="Antwort", bg="#1976d2", fg="white")
 
         # --- Attribute für Spielzustand ---
         self.username = ""  # Aktueller Benutzername
