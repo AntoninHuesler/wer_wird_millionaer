@@ -1,3 +1,4 @@
+"""Datenbank-Operationen für das Spiel."""
 import sqlite3
 from pathlib import Path
 
@@ -25,7 +26,6 @@ def login(username: str):
         # Neu eintragen
         conn.execute("INSERT INTO players(username) VALUES (?);", (username,))
         conn.commit()
-        user = username
         return (True, username)
     finally:
         conn.close()

@@ -1,26 +1,24 @@
-# Tkinter-Frontend für "Wer wird Millionär"
-#
-# frontend.py steuert das GUI des Spiels.
-# Es kommuniziert mit:
-# - game_logic-py (Spiellogik)
-# - repo_game.py (Zugriff auf DB)
+"""Frontend-Modul zur Darstellung der Benutzeroberfläche.
+Tkinter-Frontend für "Wer wird Millionär"
+
+frontend.py steuert das GUI des Spiels.
+Es kommuniziert mit:
+- game_logic-py (Spiellogik)
+- repo_game.py (Zugriff auf DB)."""
 
 import tkinter as tk  # Importiert das Tkinter-Modul für die Oberfläche
 import game_logic  # Importiert die Spiellogik
 import repo_game  # Importiert die Funktionen für das Ranking
 
 
-class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
+class QuizGUI(tk.Tk):
+    """Hauptklasse für die Quiz-Oberfläche."""
+
     def __init__(self):
         super().__init__()
         self.title("Wer wird Millionär")
         self.geometry("420x350")
         self.configure(bg="#337ab7")
-
-        tk.Label(
-            self, text="Dein Text", font=("Arial", 15), bg="#337ab7", fg="white"
-        ).pack(pady=15)
-        btn = tk.Button(self, text="Antwort", bg="#1976d2", fg="white")
 
         # --- Attribute für Spielzustand ---
         self.username = ""  # Aktueller Benutzername
@@ -34,7 +32,8 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # --------------------------------------------------------------
     # LOGIN-BEREICH
     # --------------------------------------------------------------
-    def build_login(self):  # Anzeige des Login-Bildschirms
+    def build_login(self):
+        """Anzeige des Login-Bildschirms."""
         self._clear()  # Fenster leeren
         tk.Label(self, text="Benutzername:").pack(pady=10)
         entry = tk.Entry(self)
@@ -43,7 +42,8 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
             pady=10
         )
 
-    def login(self, username):  # Login-Funktion für Benutzer
+    def login(self, username):
+        """Login-Funktion für Benutzer."""
         success, _ = game_logic.do_login(
             username
         )  # Prüft, ob Username in Datenbank existiert
@@ -56,14 +56,16 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # --------------------------------------------------------------
     # STARTBILDSCHIRM
     # --------------------------------------------------------------
-    def build_start_screen(self):  # Anzeige des Start-Bildschirms (Spiel starten)
+    def build_start_screen(self):
+        """Anzeige des Start-Bildschirms (Spiel starten)."""
         self._clear()
         tk.Button(self, text="Spiel starten", command=self.start_game).pack(pady=20)
 
     # --------------------------------------------------------------
     # SPIELSTART UND FRAGEN-ANSICHT
     # --------------------------------------------------------------
-    def start_game(self):  # Startet das Spiel, lädt erste Frage
+    def start_game(self):
+        """Startet das Spiel, lädt erste Frage."""
         question_text, answers = (
             game_logic.start_new_game()
         )  # Neue Frage + Antworten holen
@@ -71,9 +73,8 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         self.current_question = [question_text, answers]  # Frage für Anzeige speichern
         self.build_question_screen()
 
-    def build_question_screen(
-        self,
-    ):  # Zeigt die aktuelle Quiz-Frage mit Antwortmöglichkeiten
+    def build_question_screen(self):
+        """Zeigt die aktuelle Quiz-Frage mit Antwortmöglichkeiten."""
         self._clear()
 
         # --- Header für username-Anzeige oben rechts ---
@@ -84,8 +85,8 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         )
 
         # --- Aktuelle Fragenummer & Anz. Fragen gesamt aus Gamestate holen ---
-        i = game_logic.GameState["index_current_question"]
-        total = len(game_logic.GameState["questions"])
+        i = game_logic.GAME_STATE["index_current_question"]
+        total = len(game_logic.GAME_STATE["questions"])
         current_num = i + 1
 
         # --- Frage & Antworten anzeigen ---
@@ -114,7 +115,7 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         )
 
         # Rechte Seite Fusszeile: Punktestand
-        score = game_logic.GameState["score"]
+        score = game_logic.GAME_STATE["score"]
         tk.Label(footer, text=f"Punktestand: {score}", font=("Arial", 14)).pack(
             side="right", padx=10
         )
@@ -123,7 +124,8 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # ANTWORT-PRÜFUNG UND SPIELFORTSCHRITT
     # --------------------------------------------------------------
 
-    def submit_answer(self, answer_index):  # Prüft gegebene Antwort und zeigt Feedback
+    def submit_answer(self, answer_index):
+        """Prüft gegebene Antwort und zeigt Feedback."""
         correct, finished, correct_index = game_logic.submit_answer(answer_index)
 
         # Buttons nach Klick daktivieren, damit keine Mehrfachantworten möglich sind
@@ -146,26 +148,27 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
         # Wenn Antwort falsch oder Spielende erreicht
         if not correct:
             # Bei falscher Antwort: Endscreen + Ranking anzeigen
-            self.after(1300, lambda: self.show_result(game_logic.GameState["score"]))
+            self.after(1300, lambda: self.show_result(game_logic.GAME_STATE["score"]))
             return
 
         if finished:
             # Wenn alle Fragen beantwortet: Endscreen + Ranking zeigen
-            self.after(1300, lambda: self.show_result(game_logic.GameState["score"]))
+            self.after(1300, lambda: self.show_result(game_logic.GAME_STATE["score"]))
         else:
             # Sonst: nächste Frage nach kurzer Wartezeit anzeigen
-            def next():
+            def load_next_question():
                 text, answers = game_logic.load_question()
                 self.current_question = [text, answers]
                 self.build_question_screen()
 
-            self.after(1200, next)  # 1,2 Sekunden später geht's weiter
+            self.after(1200, load_next_question)  # 1,2 Sekunden später geht's weiter
 
     # --------------------------------------------------------------
     # HILFSFUNKTIONEN
     # --------------------------------------------------------------
 
-    def _clear(self):  # Hilfsfunktion: leert das Fenster
+    def _clear(self):
+        """Hilfsfunktion: leert das Fenster."""
         for widget in self.winfo_children():
             widget.destroy()
 
@@ -173,7 +176,8 @@ class QuizGUI(tk.Tk):  # Hauptklasse für die Quiz-Oberfläche
     # ERGEBNISANZEIGE
     # --------------------------------------------------------------
 
-    def show_result(self, score):  # Anzeige des Endbildschirms mit Score und Ranking
+    def show_result(self, score):
+        """Anzeige des Endbildschirms mit Score und Ranking."""
         self._clear()
         tk.Label(
             self, text=f"Spiel vorbei! Dein Score: {score}", font=("Arial", 14)
