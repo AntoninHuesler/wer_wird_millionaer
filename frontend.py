@@ -44,12 +44,22 @@ class QuizGUI(tk.Tk):
 
     def login(self, username):
         """Login-Funktion für Benutzer."""
-        success, _ = game_logic.do_login(
-            username
-        )  # Prüft, ob Username in Datenbank existiert
-        self.username = username  # Benutzername speichern
-        if success:
+        created, name, valid = game_logic.do_login(username)
+
+        # Ungültiger Name
+        if not valid:
+            tk.Label(
+                self, text="Ungültiger Benutzername (mindestens ein Buchstabe)."
+            ).pack()
+            return
+        # Gültiger Name → im GUI speichern
+        self.username = name
+
+        # 3a) Neuer Benutzer angelegt
+        if created:
             self.build_start_screen()
+
+        # Benutzername existiert bereits
         else:
             tk.Label(self, text="Dieser Benutzername existiert bereits!").pack()
 

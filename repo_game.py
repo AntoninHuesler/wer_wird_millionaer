@@ -1,18 +1,29 @@
 """Datenbank-Operationen für das Spiel."""
+
 import sqlite3
 from pathlib import Path
 
 db_game_path = Path(__file__).resolve().parent / "data" / "game.db"
 
+
 def login(username: str):
     """
-    Prüft, ob der Username in game.db/players existiert.
-    - Falls leerer Username → (False, username)
-    - Falls vorhanden → (False, username)
-    - Falls neu → Eintrag anlegen und (True, username)
+    Rückgabe: (created, username, valid)
+
+    einfache Regel: Username muss mindestens einen Buchstaben enthalten und nicht leer sein
+
+    - Ungültiger Username (kein Buchstabe oder leer)
+        → (False, username, False)
+    - Username bereits vorhanden
+        → (False, username, True)
+    - Username neu (wird angelegt)
+        → (True,  username, True)
     """
-    if username == "":
-        return (False, username)
+
+    # Validierung: username muss mindestens einen Buchstaben und nicht leer
+
+    if username == "" or not any(ch.isalpha() for ch in username):
+        return (False, username, False)
 
     conn = sqlite3.connect(db_game_path)
     try:
@@ -21,12 +32,12 @@ def login(username: str):
             "SELECT 1 FROM players WHERE username = ? LIMIT 1;", (username,)
         )
         if cursor.fetchone() is not None:
-            return (False, username)
+            return (False, username, True)
 
         # Neu eintragen
         conn.execute("INSERT INTO players(username) VALUES (?);", (username,))
         conn.commit()
-        return (True, username)
+        return (True, username, True)
     finally:
         conn.close()
 

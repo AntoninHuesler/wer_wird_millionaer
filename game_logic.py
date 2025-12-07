@@ -1,4 +1,5 @@
 """Beschreibt die Spiellogik und verwaltet den Spielzustand."""
+
 from repo_question import fetch_12_questions
 from repo_game import login, write_score_to_db
 
@@ -17,9 +18,9 @@ def do_login(username):
     Ruft login() auf, speichert den Username im GameState
     und gibt das gleiche zurück wie login().
     """
-    result = login(username)  # (True, "username")
+    result = login(username)  # (created, "username", valid)
     GAME_STATE["username"] = result[1]  # Username aus Rückgabe ins GameState
-    return result  # leiche Rückgabe wie login()
+    return result  # gleiche Rückgabe wie login()
 
 
 def start_new_game():
