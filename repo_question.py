@@ -1,4 +1,5 @@
 """Datenbank-Operationen für Fragen im Spiel."""
+
 import sqlite3
 from pathlib import Path
 
