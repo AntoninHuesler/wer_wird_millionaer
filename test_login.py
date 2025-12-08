@@ -2,6 +2,10 @@ import sqlite3
 import pytest
 import repo_game
 
+# ------------------------------------------------------------
+# Setup: Temporäre DB für tests
+# ------------------------------------------------------------
+
 
 @pytest.fixture
 def temp_db(tmp_path, monkeypatch):
@@ -30,6 +34,11 @@ def temp_db(tmp_path, monkeypatch):
     return str(db_file)
 
 
+# ------------------------------------------------------------
+# TDD: Username Validierung
+# ------------------------------------------------------------
+
+
 def test_login_username_validation(temp_db):
     """
     Testet die geplante neue Login Logik:
@@ -54,9 +63,19 @@ def test_login_username_validation(temp_db):
     assert count_invalid == 0
 
 
+# ------------------------------------------------------------
+# TEST 1: Username darf nicht empty sein
+# ------------------------------------------------------------
+
+
 def test_login_empty_username(temp_db):
     result = repo_game.login("")
     assert result == (False, "", False)
+
+
+# ------------------------------------------------------------
+# TEST 2: Login bestehender username
+# ------------------------------------------------------------
 
 
 def test_login_existing_username(temp_db):
@@ -83,6 +102,11 @@ def test_login_existing_username(temp_db):
     ).fetchone()
     conn.close()
     assert count == 1
+
+
+# ------------------------------------------------------------
+# TEST 3: Login neuer Username
+# ------------------------------------------------------------
 
 
 def test_login_new_username(temp_db):
